@@ -1,4 +1,4 @@
-# Statistics 209:
+# Statistics 209: Introduction to Statistical Modeling
 
 ![](https://img.shields.io/badge/Completion-0/0-green.svg)
 
