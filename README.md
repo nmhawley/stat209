@@ -2,8 +2,7 @@
 
 ![](https://img.shields.io/badge/Completion-0/0-green.svg)
 
-This repository is where you will save results from the labs,
-due most class meetings, and the four data reports. You will
-also receive all grades in this repository in the file `grades.md`.
-
+This repository is where you will save results from any in-class labs,
+due most class meetings, and the data reports. We will explain in more
+detail during class how these will be structured.
 
