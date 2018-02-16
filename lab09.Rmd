@@ -1,0 +1,68 @@
+---
+title: "Lab 09: Annotating Data Visualizations"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+theme_set(theme_minimal())
+```
+
+## Pick a dataset
+
+Murder rates across different cities in the US.
+
+```{r}
+murder <- read_csv("https://statsmaths.github.io/stat_data/murder_by_city.csv")
+```
+
+## Instructions
+
+Your goal in this lab is to construct an interesting visualization with the
+data that you choose above. You should make use of several manual annotations
+in an effort to tell a visual story about the dataset. Below, you should
+eventually provide a few sentences describing what you found in the dataset
+and then a single plot illustrating the interesting aspects of the data.
+You should incorporate some external information into your plot.
+
+Note that you will certainly want to create many initial exploratory plots
+before settling on a final one for analysis. This time, make sure you that you
+upload both the Rmd and the html files to GitHub (remember, the final report
+should have just one single visualization).
+
+Also note that you will have to use the format `x = as.Date("2017-01-06")` to
+add annotations to an axis that uses time as a component.
+
+## Analysis
+```{r}
+ggplot(murder, aes(murders_2014, murders_2015)) +
+  geom_point(aes(size=abs(change), color=state)) +
+  ylab("Murders in 2015") +
+  xlab("Murders in 2014") +
+  ggtitle("United States Murders in 2014 versus 2015") +
+  annotate("text", x = 405, y = 464, label = "Chicago") +
+  annotate("text", x = 211, y = 325, label = "Baltimore") +
+  annotate("point", x = 40, y = 61, color = "#7398FF", size=4) +
+  annotate("text", x = 40, y = 47, label = "Buffalo") +
+  annotate("point", x = 140, y = 135, color = "pink", size=2) +
+  annotate("text", x = 140, y = 121, label="Memphis")
+```
+
+The initial trend one would notice about the graph is that it follows a relatively linear path with about a slope of 1. This indicates that the number of murders in each city stays relatively constant from year to year.
+
+A point that breaks this trend and does not follow the linear path is Baltimore. Baltimore saw the most change in the number of murders (shown by the large size of its point on the graph) and lies far from the other points.
+
+The city with the greatest negative change was Buffalo. The graph was adjusted to show the absolute value of the change in the number of murders, so even those that decreased would still show up on the graph.
+
+Memphis is the city with the most murders that had a negative change, but most cities with large numbers of murders increased from 2014 to 2015. For example, Chicago has the most both years, and also had significant change, increasing from 2014 to 2015.
