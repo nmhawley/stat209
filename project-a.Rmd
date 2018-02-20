@@ -1,0 +1,93 @@
+---
+title: "Trends in HDC Fruit Consumption"
+author: "Natalie Hawley"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+```
+
+# Trends in HDC Fruit Consumption
+
+## Overview
+My research was focused on Heilman Dining Center guests' selections from the fresh fruit station. I observed the fruit table for 1 hour and 43 minutes, recording the decisions of each person who took fruit. Fruit seems like a potentially boring subject, but I was interested in seeing if there were any trends that could be seen at the fruit station, such as differences in fruit consumption at different times or between male and female guests. I also thought that perhaps this data could one day be useful for the dining hall team.
+
+## Data Dictionary
+Here is a data dictionary for the fruit consumption dataset:
+
+* **person**: A numerical variable used to keep track of each person that visited the fresh fruit station. Starting at 1, each person was assigned a number in the order that they arrived at the fruit table.
+* **time_elapsed**: A numerical variable measuring the number of minutes that had passed since data collection started at 2:20PM before the guest arrived at the fruit station.
+* **number**: A numerical variable measuring the number of pieces of fruit that each guest took from the fresh fruit station.
+* **type**: A categorical variable describing the type of fruit that each guest took. If a guest took more than one different type of fruit, the first type that they took was recorded. Possible options are:
+    + "Apple"
+    + "Orange"
+    + "Banana"
+    + "Pear"
+* **slicer**: A categorical variable describing whether or not the guest used the fruit slicer available at the fresh fruit station. Possible options are:
+    + "Yes"
+    + "No"
+* **gender**: A categorical variable describing the gender of each guest. Possible options are:
+    + "Male"
+    + "Female"
+
+Which can be read in as follows:
+
+```{r, message=FALSE, warning=FALSE}
+fruit_data <- read_csv("https://raw.githubusercontent.com/URstats/stat209-s18-nmhawley/master/fruit_data.csv")
+fruit_data
+```
+
+## Exploratory Analysis
+
+###Time
+The two graphs below are representations of an overall schedule of my time observing the fruit station to help visualize people's collection of fruit over time. I prefer the first graph because it shows the elapsed time variable more clearly with each type of fruit separated.
+
+```{r, echo=FALSE}
+ggplot(fruit_data, aes(time_elapsed, type)) +
+  geom_point(aes(color = type, size=number))
+```
+
+These graphs are useful for determining which times of the afternoon are most popular for certain fruits and also which times are most and least popular for visiting the fruit station in general. I found that there were rushes of people at times when classes ended, but also when some of the dining hall staff went on break, which adds an interesting factor to the data.
+
+```{r, echo=FALSE}
+ggplot(fruit_data, aes(time_elapsed, person)) +
+  geom_point(aes(color = type))
+```
+
+###Types
+This graph, showing the frequency that people selected each different option of fruit, is a very simple graph, but I was interested in seeing a visualization of this data, so we could easily determine the popularity of each fruit available.
+
+```{r, echo=FALSE}
+ggplot(fruit_data, aes(type)) +
+  geom_bar(aes(fill = type))
+```
+
+Bananas were the most popular fruit this afternoon. Followed by apples, oranges, and finally pears. I did not think that bananas would be the most popular fruit because I usually see people eating apples or oranges. Perhaps, people take bananas to-go more frequently and people sit down to eat apples and oranges.
+
+###Gender
+The following graph helps to show whether males or females have different preferences when choosing what fruit to eat. From the graph, we can tell that pears are clearly preferred by females, and that oranges are chosen more often by males than females. There is a fairly even distribution of males and females who took both apples and bananas.
+
+```{r, echo=FALSE}
+ggplot(fruit_data, aes(person, type)) +
+  geom_point(aes(color = gender))
+```
+
+This second graph simply shows the total distribution of males and females who visited the fruit station. I was expecting to see many more females getting fruit than males, but overall, there was a relatively even number of both.
+
+```{r, echo=FALSE}
+ggplot(fruit_data, aes(gender)) +
+  geom_bar(aes(fill = gender))
+```
+
+## Conclusion
+
+Going into this project, I wasn't certain that I would be able to find any trends in my data, but I think that the biggest takeaway is that there certainly are trends about fruit in the HDC! My research revealed several conclusions. Through studying time, I found that the most popular times to get fruit were after class times ended. I also found that the popularity of fruit was in decreasing order: bananas, apples, oranges, and pears. And finally I found some interesting results about the preferences of males and females. They both got about the same amount of fruit, but females prefer pears when males prefer oranges.
+
+As I went through my exploratory analysis, I thought of so many more things I was interested in learning about my research topic. I would be interested in, first of all, doing a longer study, so that I could see the trends at the fruit station over the course of a whole day as well as on different days of the week. I would also be interested in adding more variables to my data set, like whether a guest took multiple different kinds of fruit and whether they were a student or adult.
+
+I think that this data could be potentially important for the dining hall staff. While I was collecting my data, I saw them run out of certain fruits a few times, and this data could help them know which fruits to restock at which times. Also, it could simply help them determine how much of each fruit to buy.
