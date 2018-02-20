@@ -1,0 +1,111 @@
+---
+title: "Lab 10: Filtering Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+theme_set(theme_minimal())
+```
+
+## Pick a dataset
+
+The daily team ELO ratings in the NBA:
+
+```{r}
+nba <- read_csv("https://statsmaths.github.io/stat_data/nba_elo_daily.csv")
+```
+
+## Instructions
+
+This lab is similar to the last. You'll pick a dataset and then generate an
+analysis of that data using data visualizations. The difference here is that
+instead of a single plot, I would like you to construct 3-4 plots that
+together tell a linear story. Each plot should be separated by a sentence or
+two describing what the viewer should take away from the plot. Try to keep the
+plots similar in some way; perhaps each simply highlights a different subset
+of the data but has the same underlying layers.
+
+Notice that each of the datasets for today are larger than you will probably
+be able to use. You will need to filter the data to a particular team, year,
+subset of curse words. You may further filter the data to highlight an even
+smaller subset of the data within each plot.
+
+## Analysis
+
+I took a look at the ELO rating of four different teams during four different seasons. I compared the ratings of the Boston Celtics, the Cleveland Cavaliers, the Golden State Warriors, and the Toronto Raptors.
+
+```{r}
+nba_2004 <- filter(nba, season == 2004)
+bos_2004 <- filter(nba_2004, team == "BOS")
+cle_2004 <- filter(nba_2004, team == "CLE")
+gsw_2004 <- filter(nba_2004, team == "GSW")
+tor_2004 <- filter(nba_2004, team == "TOR")
+
+ggplot(nba_2004, aes(date, elo)) +
+  geom_line(color = "springgreen4", data = bos_2004) +
+  geom_line(color = "maroon", data = cle_2004) +
+  geom_line(color = "gold", data = gsw_2004) +
+  geom_line(color = "black", data = tor_2004)
+```
+
+The first season I looked at was 2004. The Cavaliers saw a great increase in their rating over the course of the season while the Raptors and Celtics' ratings decreased a little and Golden State's stayed fairly constant.
+
+```{r}
+nba_2008 <- filter(nba, season == 2008)
+bos_2008 <- filter(nba_2008, team == "BOS")
+cle_2008 <- filter(nba_2008, team == "CLE")
+gsw_2008 <- filter(nba_2008, team == "GSW")
+tor_2008 <- filter(nba_2008, team == "TOR")
+
+ggplot(nba_2008, aes(date, elo)) +
+  geom_line(color = "springgreen4", data = bos_2008) +
+  geom_line(color = "maroon", data = cle_2008) +
+  geom_line(color = "gold", data = gsw_2008) +
+  geom_line(color = "black", data = tor_2008)
+```
+
+This graph shows the ELO ratings over the course of the 2008 season. The Celtics started as the team with the lowest rating, but eventually made it to the top. The other three teams remained within the 1500-1600 range throughout most of the season.
+
+```{r}
+nba_2012 <- filter(nba, season == 2012)
+bos_2012 <- filter(nba_2012, team == "BOS")
+cle_2012 <- filter(nba_2012, team == "CLE")
+gsw_2012 <- filter(nba_2012, team == "GSW")
+tor_2012 <- filter(nba_2012, team == "TOR")
+
+ggplot(nba_2004, aes(date, elo)) +
+  geom_line(color = "springgreen4", data = bos_2012) +
+  geom_line(color = "maroon", data = cle_2012) +
+  geom_line(color = "gold", data = gsw_2012) +
+  geom_line(color = "black", data = tor_2012)
+```
+
+And this graph shows the ratings in 2012. In both 2012 and 2016, there is less crossing of each teams lines, indicating that the teams' ratings stayed relatively constant throughout the season.
+
+```{r}
+nba_2016 <- filter(nba, season == 2016)
+bos_2016 <- filter(nba_2016, team == "BOS")
+cle_2016 <- filter(nba_2016, team == "CLE")
+gsw_2016 <- filter(nba_2016, team == "GSW")
+tor_2016 <- filter(nba_2016, team == "TOR")
+
+ggplot(nba_2004, aes(date, elo)) +
+  geom_line(color = "springgreen4", data = bos_2016) +
+  geom_line(color = "maroon", data = cle_2016) +
+  geom_line(color = "gold", data = gsw_2016) +
+  geom_line(color = "black", data = tor_2016)
+```
+
+Finally, I took a look at the 2016 ELO ratings. Interestingly, in this graph, you can see the Cavaliers' rating increase throughout the end of the season until eventually surpassing Golden State (which had been on top the rest of the season) when they beat them in the NBA finals.
