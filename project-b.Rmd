@@ -1,0 +1,99 @@
+---
+title: "Asian-Americans in San Francisco"
+author: "Natalie Hawley"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(ggmap)
+library(viridis)
+library(forcats)
+library(smodels)
+```
+
+```{r}
+tracts <- read_csv("https://raw.githubusercontent.com/statsmaths/stat_data/gh-pages/acs_tract_data_2016.csv.gz")
+san_francisco <- filter(tracts, county == "San Francisco County")
+san_francisco$percent_asian <- cut(san_francisco$race_asian, breaks=c(-Inf, 20, 40, 60, 80, Inf), labels=c("0-20","21-40","41-60","61-80","81-100"))
+percent_asian <- group_summarize(san_francisco, percent_asian)
+```
+
+##Introduction
+San Francisco has one of the largest Asian-American populations of all major U.S. cities. Of each tract within the city, only one has a population with a lower percentage of Asian-Americans than the national average for the U.S., and many areas are well above the average.
+
+This report explores a few different aspects of the lives of Asian-Americans living in San Francisco.
+
+##Map
+
+The map of San Francisco below gives us two different pieces of information about each tract in the city. First, the color of the area's dot represents how high the proportion of Asian-Americans is in that neighborhood, the darker the purple, the higher the percentage. The map also shows the median rent of each tract, represented as the size of a dot.
+
+```{r}
+qmplot(lon, lat, data = san_francisco, geom = "blank") +
+  geom_point(aes(color=race_asian, size=median_rent)) +
+  scale_color_gradient2()
+```
+
+Although we already have a general idea from the data set that there are many areas in San Francisco with high proportions of Asian-Americans, the map helps us to visualize where the highest percentage of them are living. In general, Asian-Americans seem to be most concentrated around the outside of the city, particularly in the northeast corner, which is where San Francisco's China town is located.
+
+There are few obvious patterns relating to the rent and race in most areas. In the China town area is one exception as the rent is clearly lower and the percentage of residents from Asian decent is clearly higher there. On the other hand, some of the highest rents come out of the Sunset District on the west coast of the city where most neighborhoods do have a decent proportion of Asian-Americans.
+
+##Commute
+
+The graph below shows the most frequently used means of transportation for areas with different proprtions of Asian-Americans in their population.The five groups represented (0-20%, 21-40%, 41-60%, 61-80%, and 81-100%) all use averages from each of the tract that falls within those values.
+
+```{r}
+ggplot(percent_asian, aes(percent_asian, group=1)) +
+  geom_line(aes(y=commute_car_mean), color="#3F3D9A") +
+  geom_line(aes(y=commute_public_mean), color="#CEC8E5") +
+  geom_line(aes(y=commute_bike_mean), color="#A197CB") +
+  geom_line(aes(y=commute_walk_mean), color="#B1A8D5") +
+  geom_line(aes(y=commute_athome_mean), color="#645BAB") +
+  annotate("text", x="0-20", y=39.61710, label="Car") +
+  annotate("text", x="0-20", y=37.08594, label="Public") +
+  annotate("text", x="0-20", y=5.7, label="Bike") +
+  annotate("text", x="0-20", y=7.568261, label="At Home") +
+  annotate("text", x="0-20", y=9.7, label="Walk") +
+  ggtitle("Average Popularity of Commute Types in Areas of Different Percentages of Asians") +
+  xlab("Percentage Asian") +
+  ylab("Percentage of Total Population using Commute Type")
+```
+
+In areas with populations over 80% Asian, there are increases in the use of public transportation as well as people who walk to work. This is likely because the areas with these extremely high concentrations of Asian-Americans are around China town, or similar types of areas, where most of the residents run their own businesses, which are likely in the same or nearby neighborhood.
+
+Another interesting trend is how the graphs for people who drive to work and for people who walk to work nearly mirror each other.
+
+##Income
+
+This final graph shows the fourth quartile median incomes for each neighborhood, ordered in increasing prevalence of two races, either white people represented by dark purple dots, or Asians represented by light purple dots.
+
+```{r}
+ggplot(san_francisco, aes(race_asian, hh_income_q4)) +
+  geom_point(color="#3F3D9A") +
+  geom_point(aes(x=race_white), color="#A197CB") +
+  geom_smooth(method = "lm", color = "black", se = FALSE, linetype = "dashed", size = 0.5) +
+  geom_smooth(aes(x=race_white), method = "lm", color = "black", se = FALSE, linetype = "dashed", size = 0.5) +
+  ggtitle("Fourth Quartile Median Incomes in Areas of Different Racial Concentrations") +
+  xlab("Percentage Race of Total Population") +
+  ylab("Median Income in Dollars") +
+  annotate("text", x=40.67, y=230498, label="Mission Bay")
+```
+
+The overall trend given by this graph is that as the percentage of Asians in a neighborhood increases, the median income decreases, and as the percentage of white people increases, the median income decreases.
+
+However, two of the largest tracts, which come out of the Mission Bay and Financial District neighborhoods, are extremely high income neighborhoods and each have about 40% Asian population.
+
+## References
+
