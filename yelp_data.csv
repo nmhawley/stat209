@@ -1,0 +1,101 @@
+restaurant,rating,reviews,distance,neighborhood
+Carmelina's,4.5,888,0.3,North End
+Giacomo's Ristorante,4,2869,0.3,North End
+Bostonia Public House,4,887,0.1,North End
+Trattoria II Panino,4,553,0.3,North End
+Pomodoro,4.5,306,0.3,North End
+Union Oyster House,3.5,2089,0.2,North End
+Rigoletto Ristorante,4,181,0.2,North End
+Panza,4,1066,0.3,North End
+Al Dente,4,870,0.2,North End
+Koy,4,322,0.05,North End
+Pauli's,4.5,722,0.1,North End
+Green Dragon Tavern,3.5,390,0.2,North End
+La Familia Giorgio's,4,1050,0.2,North End
+Boston Chowda,4,799,0.2,North End
+Granary Tavern,3.5,512,0.1,North End
+Limoncello,4,520,0.2,North End
+North Street Grille,4,670,0.4,North End
+Locale,4.5,277,0.4,North End
+Cantina Italiana,4,390,0.4,North End
+Monica's Mercato,4.5,335,0.3,North End
+Rabia's,3.5,508,0.2,North End
+Benevento's,4,358,0.2,North End
+Parla,4,203,0.2,North End
+Mother Anna's Restaurant,3.5,269,0.2,North End
+Scopa,4.5,155,0.3,North End
+The Salty Pig,4,1324,0.06,Back Bay
+Luke's Lobster,4.5,1059,0.3,Back Bay
+Off the Common,3.5,26,0.09,Back Bay
+The Friendly Toast,4,661,0.2,Back Bay
+The Beehive,3.5,1931,0.4,Back Bay
+Lolita Cocina,4,1574,0.3,Back Bay
+Dig Inn,4,351,0.1,Back Bay
+Bootleg Special,4,33,0.4,Back Bay
+Giacomo's,4,1053,0.3,Back Bay
+Parish Café,4,1274,0.05,Back Bay
+Precinct Kitchen,3.5,199,0.3,Back Bay
+Barcelona Wine Bar,4.5,782,0.4,Back Bay
+Piattini,4,690,0.2,Back Bay
+Gre.Co,4.5,245,0.2,Back Bay
+Earls Kitchen,4,222,0.1,Back Bay
+Coda,4,547,0.1,Back Bay
+Abby Lane Food,3.5,354,0.2,Back Bay
+Maggiano's Little Italy,3.5,735,0.2,Back Bay
+Beantown Pho,4,298,0.3,Back Bay
+Shabumaru,3.5,84,0.2,Back Bay
+Thinking Cup,4.5,612,0.3,Back Bay
+Buttermilk & Bourbon,3.5,214,0.2,Back Bay
+Moon Bar,4.5,24,0.2,Back Bay
+Joe's American Bar,3.5,759,0.2,Back Bay
+Citrus & Salt,3.5,76,0.3,Back Bay
+Tora Japanese Restaurant,4.5,75,0.2,Chinatown
+Amateras Ramen,4,118,0.2,Chinatown
+Shojo,4,663,0.2,Chinatown
+Double Chin,3.5,355,0.2,Chinatown
+Hot Eastern,4,129,0.2,Chinatown
+Q Restaurant,4,804,0.03,Chinatown
+Gourmet Dumpling House,3.5,1562,0.2,Chinatown
+Gaga Seafood,4,106,0.2,Chinatown
+Jm Curley,4,693,0.2,Chinatown
+BLR,4,190,0.2,Chinatown
+Hei La Moon,3.5,976,0.3,Chinatown
+Taiwan Café,3.5,963,0.2,Chinatown
+Shabu-Zen,4,790,0.2,Chinatown
+Back Deck,3,441,0.1,Chinatown
+Stoddard's Fine Food,3.5,518,0.1,Chinatown
+Dumpling Café,3.5,666,0.09,Chinatown
+Kaze Shabu Shabu,4,512,0.07,Chinatown
+New Golden Gate,3.5,267,0.2,Chinatown
+Peach Farm,3.5,460,0.2,Chinatown
+Penang,3.5,812,0.07,Chinatown
+Crave Mad for Chicken,3.5,461,0.2,Chinatown
+Irashai Sushi,4,378,0.1,Chinatown
+Gourmet China House,3.5,131,0.2,Chinatown
+Five Spices House,3,122,0.2,Chinatown
+New Jumbo Seafood,3.5,309,0.2,Chinatown
+Tapestry,4,154,0.4,Fenway
+Audubon Boston,4,146,0.2,Fenway
+Hojoko Boston,3.5,260,0.5,Fenway
+Sojuba,4.5,71,0.5,Fenway
+CAVA,4.5,30,0.4,Fenway
+Sweet Cheeks Q,3.5,1299,0.3,Fenway
+Eventide,4,104,0.4,Fenway
+Basho Japanese Brasserie,3.5,472,0.4,Fenway
+Wahlburgers,3,464,0.3,Fenway
+Yard House,3.5,652,0.3,Fenway
+Mei Mei Restaurant,4,237,0.2,Fenway
+Sushi Kappo,4.5,28,0.4,Fenway
+Thaitation,4,269,0.4,Fenway
+Citizen Public House,3.5,549,0.4,Fenway
+Saloniki Greek,4,322,0.3,Fenway
+Cask'n Flagon,4,491,0.3,Fenway
+Kaju Tofu House,4,38,0.08,Fenway
+Jyuba,3.5,13,0.5,Fenway
+Boston Beer Works,3.5,656,0.3,Fenway
+Pho Countryside,4,76,0.1,Fenway
+Boston Burger Company,4,663,0.1,Fenway
+Tony C's Sports Bar,3.5,56,0.5,Fenway
+Sol Azteca,3.5,322,0.09,Fenway
+Sweetgreen,4,64,0.3,Fenway
+Beacon Street Locale,4,38,0.4,Fenway
