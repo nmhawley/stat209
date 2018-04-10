@@ -1,0 +1,131 @@
+---
+title: "Predicting the Yelp Ratings of Restaurants in Boston"
+author: "Natalie Hawley"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(ggmap)
+library(viridis)
+library(forcats)
+library(smodels)
+```
+
+```{r}
+yelp_data <- read_csv("https://raw.githubusercontent.com/URstats/stat209-s18-nmhawley/master/yelp_data.csv")
+```
+
+##Introduction
+My research goal was to find how much of a role location plays in the popularity of restaurants in Boston. I was especially interested in whether the proximity to an MBTA subway stop had an effect on Yelp ratings. At first, I assumed that restaurants closer to T-stops would be more popular, but as I started to collect data I realized this may not be the case because it is difficult to find many restaurants more 0.3 miles from a stop. I expected to see trends in overall rating and number of reviews as a function of zipcode, but not in distance to T-stops.
+
+Before creating my models, I hypothesized the following: 1) that both the linear regression of star rating as a function of distance from a subway stop and number of reviews as a function of distance would have no correlation, 2) number of reviews and star ratings would have the greatest change in slope in the North End and the greatest decrease in Chinatown, and 3) there would be no correlation between distance to T-stops and different neighborhoods.
+
+##Methods
+I recorded information on star rating and number of reviews from Yelp.com about the first 25 "moderately priced" restaurants from four different zip codes in Boston, Massachussets. The restaurants were each placed in a neighborhood category based on what zipcode the restaurant is in. I looked at the zip code 02113 for restaurants in the North End neighborhood, 02116 for Back Bay, 02111 for Chinatown, and 02215 for Fenway. I used Google Maps to find how far each restaurant was in miles from the nearest MBTA subway station.
+
+To analyze my collected data, I used lm_basic models to perform inference for the mean and linear regression tests. Inference for the mean looks at the change in slope for different categories of a variable, and linear regression creates an estimation for a line based on two continuous variables.
+
+##Results
+
+###Linear Regression
+First, I looked at both of the continuous variables that help determine the popularity of a restaurant, rating and reviews, as a function of the distance from a subway stop using linear regression models.
+
+```{r}
+ggplot(yelp_data, aes(distance, rating)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  xlab("Distance to Nearest MBTA Subway Stop (in Miles)") +
+  ylab("Yelp Star Rating") +
+  ggtitle("Star Rating as a Function of Distance to the Nearest T-Stop")
+```
+
+```{r}
+model <- lm_basic(rating ~ 1 + distance, data = yelp_data)
+reg_table(model, level = 0.95)
+```
+
+The scatter plot above shows a slight positive correlation between distance and rating; however, as shown in the regression table, the R-squared value is 0.0184, and the confidence interval for the slope ranges from -0.2064 to 1.096, so the model has tons of variability and is not statistically significant.
+
+```{r}
+ggplot(yelp_data, aes(distance, reviews)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_y_log10() +
+  xlab("Distance to Nearest MBTA Subway Stop (in Miles)") +
+  ylab("Number of Yelp Reviews") +
+  ggtitle("Number of Reviews as a Function of Distance to the Nearest T-Stop")
+```
+
+```{r}
+model2 <- lm_basic(reviews ~ 1 + distance, data = yelp_data)
+reg_table(model2, level = 0.95)
+```
+
+Similarly, there seems to be a slight trend, in this case, a decrease in number of reviews as distance from a T-stop increases, but once again, the regression table illustrates why this trend is not significant. This model has an R-squared value of 0.008337, and the confidence interval for the slope ranges from -1229.4 to 457.7.
+
+###Inference for Several Means
+Next, I examined the differences in ratings, number of reviews, and distances to T-stops across each neighborhood. For each test, the model was able to find a statistically significant estimate for an average baseline value (I used Back Bay as the baseline), but there was only one neighborhood in each test that demonstrated a significant change in the variable.
+
+```{r}
+ggplot(yelp_data, aes(neighborhood, rating)) +
+  geom_boxplot() +
+  xlab("Neighborhood") +
+  ylab("Yelp Star Rating") +
+  ggtitle("Variation in Star Ratings by Neighborhood")
+```
+
+```{r}
+model3 <- lm_basic(rating ~ 1 + neighborhood, data = yelp_data)
+reg_table(model3, level = 0.95)
+```
+
+In the model examining the Yelp star ratings for each restaurant, the only statistically signifcant change was for Chinatown, in which the average star rating for each restaurant is estimated to be 0.22 lower than the Back Bay rating on average. As seen in the box plot, all other neighborhoods have medians at a 4.0 rating while Chinatown's median rating is 3.5. The confidence interval for the estimated mean rating in Back Bay ranges from 3.7771 to 4.063. Again, this model has a lot of variation with an R-squared value of 0.0992.
+
+```{r}
+ggplot(yelp_data, aes(neighborhood, distance)) +
+  geom_violin() +
+  xlab("Neighborhood") +
+  ylab("Distance to Nearest MBTA Subway Stop (in Miles)") +
+  ggtitle("Variation in Distances to T-Stops by Neighborhood")
+```
+
+```{r}
+model4 <- lm_basic(distance ~ 1 + neighborhood, data = yelp_data)
+reg_table(model4, level = 0.95)
+```
+
+The next model looks at the distances from subway stations in each of the neighborhoods. Again, there was only one neighborhood with a statistically significant value. Fenway had an average increase of an average 0.0988 miles in distance from the baseline neighborhood Back Bay. As shown in the violin plot, the distances for Fenway are concentrated on the higher end. The confidence interval for the average distance from a T-stop in Back Bay ranges from 0.18377 to 0.264. This model has a slightly higher R-squared value than previous models, but the value of 0.2329 still implies high variability.
+
+```{r}
+ggplot(yelp_data, aes(neighborhood, reviews)) +
+  scale_y_log10() +
+  geom_boxplot() +
+  xlab("Neighborhood") +
+  ylab("Number of Yelp Reviws") +
+  ggtitle("Variation in Number of Reviews by Neighborhood")
+```
+
+```{r}
+model5 <- lm_basic(reviews ~ 1 + neighborhood, data = yelp_data)
+reg_table(model5, level = 0.95)
+```
+
+Finally, in the model predicting number of reviews as a function of neighborhood, had a lot of variability, with an R-squared value of 0.09209. The box plot shows that there is more variability between the different neighborhoods than in previous models. In this model, Fenway had a significant decrease in number of reviews, with an estimated average of 306.12 less reviews than the baseline Back Bay. Back Bay's confidence interval for number of reviews ranges from 420.13 to 790.03.
+
+##Conclusions
+Despite the common sentiment "location is everything," the models that I created did not produce many statistically significant outcomes which implies that location does not greatly impact the popularity of a restaurant in Boston.
+
+The models give us the following conclusions: 1) there is no significant correlation when looking at star ratings or number of reviews as functions of distance from MBTA subway stations, 2) Chinatown has an average decrease in star rating from Back Bay of 0.22 stars, and the changes in other neighborhoods' ratings are not significant, 3) Fenway has an average increase of 0.0988 miles in distance to the nearest subway station, and the changes in other neighborhoods are insignificant, and finally, 4) Fenway has an average decrease of 306.12 reviews from Back Bay, and changes in reviews are insignificant for the other neighborhoods.
+
+I predicted the models with a 95% confidence interval which means that there is a 95% chance that the values will fall within the given range. The estimation is only statistically significant if both the upper estimate and the lower estimate have the same sign. Otherwise, the confidence interval passes through zero, which would be the null hypothesis.
+
+The only statistically significant results were found when looking only at each variable within the different neighborhoods. The one interesting result that came up is that Fenway had both the farthest average difference from a T-stop as well as the lowest average number of reviews. This supports the theory that restaurants closer to T-stops are more popular, perhaps because they are easier to get to.
